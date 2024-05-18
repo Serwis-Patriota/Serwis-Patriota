@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Serwer Patriota 🖥️</title>
+</head>
+<body>
+   <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+
+        .articles-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .article {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .article:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .article img {
+            width: 150px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .article h2 {
+            margin-top: 0;
+        }
+
+        .selected-article-container {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 270px;
+            height: 230px;
+            background-color: red;
+            border: 1px solid #ccc;
+            padding: 5px;
+            z-index: 999;
+            text-align: center;
+            display: none;
+        }
+
+        .selected-article-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        .close-btn {
+            float: right;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+        }
+
+        #wybierzProgramButton {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        #programyContainer {
+            position: absolute;
+            bottom: 50px;
+            right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    
+
+    <!-- Div z programami do wyboru -->
+    <div id="programyContainer" style="display:none;">
+        <h3>Wybierz program:</h3>
+        <select id="programySelect">
+            <option value="https://www.youtube.com/embed/dzntyCTgJMQ">TV Republika</option>
+            <option value="https://www.youtube.com/embed/Bvf2BBCMksE">W Polsce</option>
+            <option value="https://www.youtube.com/embed/LURCoX2Q1Us">TV Trwam</option>
+        </select>
+        <button id="wyswietlFilmButton">Wyświetl</button>
+    </div>
+
+    <!-- Przycisk "Wybierz program" -->
+    <button id="wybierzProgramButton">Wybierz program</button>
+
+    <!-- Div, w którym zostanie osadzony film -->
+    <div class="selected-article-container" id="selected-article">
+        <span class="close-btn" onclick="closeSelectedArticle()">X</span>
+        <h2 id="selected-article-title"></h2>
+        <img src="" id="selected-article-img" alt="">
+        <div class="article-content" id="selected-article-content"></div>
+    </div>
+    
+ 
+
+    <script>
+        // Funkcja do wyświetlania ramki z programami do wyboru po kliknięciu na przycisk "Wybierz program"
+        function wybierzProgram() {
+            document.getElementById("programyContainer").style.display = "block";
+        }
+
+        // Funkcja do osadzania wybranego filmu
+        function wyswietlFilm() {
+            var filmContainer = document.getElementById("selected-article");
+            var selectedProgram = document.getElementById("programySelect").value;
+
+            // Tworzymy iframe z wybranym filmem
+            var iframe = document.createElement("iframe");
+            iframe.setAttribute("width", "100%");
+            iframe.setAttribute("height", "100%");
+            iframe.setAttribute("src", selectedProgram);
+            iframe.setAttribute("frameborder", "0");
+            iframe.setAttribute("allowfullscreen", "");
+
+            // Usuwamy poprzedni film, jeśli istnieje
+            while (filmContainer.firstChild) {
+                filmContainer.removeChild(filmContainer.firstChild);
+            }
+
+            // Dodajemy iframe do kontenera
+            filmContainer.appendChild(iframe);
+
+            // Pokazujemy kontener filmu
+            filmContainer.style.display = "block";
+        }
+
+        // Dodajemy nasłuchiwanie na kliknięcie przycisku "Wybierz program"
+        document.getElementById("wybierzProgramButton").addEventListener("click", wybierzProgram);
+
+        // Dodajemy nasłuchiwanie na kliknięcie przycisku "Wyświetl film"
+        document.getElementById("wyswietlFilmButton").addEventListener("click", wyswietlFilm);
+
+        function toggleArticle(articleIndex) {
+            const selectedArticle = document.getElementById('selected-article');
+            const selectedArticleTitle = document.getElementById('selected-article-title');
+            const selectedArticleImg = document.getElementById('selected-article-img');
+            const selectedArticleContent = document.getElementById('selected-article-content');
+
+            const articles = document.querySelectorAll('.article');
+            const article = articles[articleIndex - 1];
+
+            selectedArticleTitle.textContent = article.querySelector('h2').textContent;
+            selectedArticleImg.src = article.querySelector('img').src;
+            selectedArticleContent.innerHTML = article.querySelector('.article-content').innerHTML;
+
+            selectedArticle.style.display = 'block';
+        }
+
+        function closeSelectedArticle() {
+            const selectedArticle = document.getElementById('selected-article');
+            selectedArticle.style.display = 'none';
+        }
+    </script>
+ <iframe src="https://script.google.com/macros/s/AKfycby985GXBlnt8brisNNNh27BWAuBOCPXWQlSrgcUySdSrpYXsr6U6XkjS49fQ6dvyf8y/exec" style="border: none;" width="100%" height="900px" scrolling="no"></iframe>
+
+</body>
+</html>
